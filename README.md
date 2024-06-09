@@ -65,6 +65,9 @@ Conditionally apply an `effect` to a ui form elements based on another element's
 - DISABLE: Disables the form element in the rendered form.
 - ENABLE: Enables the form element in the rendered form.
 
+## Preview
+![demo](./demo.gif)
+
 ## Getting started
 
 To run the project with Nx use the following syntax:
