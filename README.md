@@ -132,7 +132,7 @@ Conditionally apply an `effect` to a ui form elements based on another element's
 
   
 ## Element Properties
-Each element has different set of properties that can be customized
+Each element has different set of properties that can be customized by clicking on the element in the drop zone
 ### Base Properties:
 
  - Label: An optional text that appear above the input field
@@ -146,7 +146,7 @@ Each element has different set of properties that can be customized
 ### Text Area Field Properties
  - Height: The height for the text area input field
 
-<img src="./drop-down-properties.png" alt="Drop Down Properties">
+<img src="./drop-down-properties.png" alt="Drop Down Properties" width="300" height="500">
 
 ## Preview
 
