@@ -146,7 +146,7 @@ Each element has different set of properties that can be customized
 ### Text Area Field Properties
  - Height: The height for the text area input field
 
-![Drop Down Properties](./drop-down-properties.png)
+![Drop Down Properties](./drop-down-properties.png =250x250)
 
 ## Preview
 
