@@ -143,11 +143,10 @@ Each element has different set of properties that can be customized
  
  - Option Label: The label that will appear inside the dropdown options
  - Option Value: The value that is associated with the label
- ![Drop Down Properties](./drop-down-properties.png)
- 
-  ### Text Area Field Properties
-
+### Text Area Field Properties
  - Height: The height for the text area input field
+
+![Drop Down Properties](./drop-down-properties.png)
 
 ## Preview
 
