@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Suspense, useEffect, useState } from 'react';
 import DefaultLayout from './layouts/DefaultLayout';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import ErrorPage from './components/ErrorPage';
+import ErrorPage from './components/Errors/ErrorPage';
 import 'react-toastify/dist/ReactToastify.css';
 import FormBuilder from './components/FormBuilder/FormBuilder';
 import DesignerContextProvider from './components/FormBuilder/Context/DesignerContext';

@@ -2,8 +2,8 @@ import { cn } from '@engine/design-system';
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import DeafultSideBar from '../components/DefaultSideBar';
-import DefaultTopBar from '../components/DefaultTopBar';
+import DeafultSideBar from '../components/Navigation/DefaultSideBar';
+import DefaultTopBar from '../components/Navigation/DefaultTopBar';
 
 const DefaultLayout = ({
   switchTheme,
