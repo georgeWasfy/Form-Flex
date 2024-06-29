@@ -41,6 +41,7 @@ type DesignerContextType = {
     }
   >;
   uiElementsState: Map<string, ControlEffect>;
+  addSteps: (element: FormElementInstance, steps: any[]) => void;
 };
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);
@@ -267,6 +268,9 @@ export default function DesignerContextProvider({
       );
     }
   };
+  const addSteps = (element: FormElementInstance, steps: any[]) => {
+    setUISchema({ ...element.uiSchema, elements: steps });
+  };
   return (
     <DesignerContext.Provider
       value={{
@@ -283,6 +287,7 @@ export default function DesignerContextProvider({
         elementsMap,
         elementsToWatch,
         uiElementsState,
+        addSteps,
       }}
     >
       {children}
