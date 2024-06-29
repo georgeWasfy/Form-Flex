@@ -12,6 +12,7 @@ import { GroupAccordionLayoutElement } from './Layouts/GroupAccordionLayout';
 import { HorizontalLayoutElement } from './Layouts/Horizontal';
 import { VerticalLayoutElement } from './Layouts/Vertical';
 import { MiltistepLayoutElement } from './Layouts/MultistepLayout';
+import { StepLayoutElement } from './Layouts/StepLayout';
 
 export const RuleEffects = ['HIDE', 'SHOW', 'ENABLE', 'DISABLE'] as const;
 export const OPERATORS = [
@@ -36,6 +37,7 @@ export type ElementsType =
   | 'VerticalLayout'
   | 'GroupAccordionLayout'
   | 'MultistepLayout'
+  | 'StepLayout'
   | 'NumberField'
   | 'TextAreaField'
   | 'DateField'
@@ -84,6 +86,7 @@ export const FormElements: FormElementsType = {
   VerticalLayout: VerticalLayoutElement,
   GroupAccordionLayout: GroupAccordionLayoutElement,
   MultistepLayout: MiltistepLayoutElement,
+  StepLayout: StepLayoutElement,
   NumberField: NumberFieldFormElement,
   TextAreaField: TextAreaFieldFormElement,
   DateField: DateFieldFormElement,

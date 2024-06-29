@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@engine/design-system';
-import { Cross1Icon, MoveIcon } from '@radix-ui/react-icons';
+import { Cross1Icon, DashboardIcon } from '@radix-ui/react-icons';
 import { ReactNode } from 'react';
 import useDesigner from '../Hooks/useDesigner';
 import { FormElementInstance, FormElements } from '../types';
@@ -18,7 +18,7 @@ const LayoutComponentWrapper = ({
   element: FormElementInstance;
   children: ReactNode;
 }) => {
-  const { removeLayout } = useDesigner();
+  const { removeLayout, setSelectedElement } = useDesigner();
   const dropZone = useDroppable({
     id: `${element.key}-layout`,
     data: {
@@ -49,21 +49,29 @@ const LayoutComponentWrapper = ({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={() => removeLayout(element.key)}
-                className=" ml-1 flex w-5 h-5 items-center justify-center -top-1 -right-1 rounded-full  bg-accent"
-              >
-                <MoveIcon className="" width={10} height={10} stroke="black" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <h1 className="text-white">{element.subtype}</h1>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        {element.subtype === 'MultistepLayout' && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type='button'
+                  onClick={() => setSelectedElement(element)}
+                  className=" ml-1 flex w-5 h-5 items-center justify-center -top-1 -right-1 rounded-full  bg-accent"
+                >
+                  <DashboardIcon
+                    className=""
+                    width={10}
+                    height={10}
+                    stroke="black"
+                  />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <h1 className="text-white">Options</h1>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
       </div>
 
       <div
