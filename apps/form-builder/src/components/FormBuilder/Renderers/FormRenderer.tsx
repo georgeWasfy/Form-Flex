@@ -5,7 +5,7 @@ import { Button } from '@engine/design-system';
 import { ElementRenderer } from './ElementRenderer';
 import useDesigner from '../Hooks/useDesigner';
 import { useEffect, useState } from 'react';
-import { evaluateRule } from '../helpers';
+import { evaluateRule } from '../Schema/helpers';
 import { EffectMap } from '../types';
 
 const FormRenderer = ({

@@ -5,7 +5,7 @@ import {
   ControlEffect,
 } from '@engine/shared-types';
 import { UseFormReturn, FieldValues } from 'react-hook-form';
-import { findPropertyFromScope } from '../helpers';
+import { findPropertyFromScope } from '../Schema/helpers';
 import useDesigner from '../Hooks/useDesigner';
 import { FormElements, ElementsType, EffectMap } from '../types';
 import DesignerComponentWrapper from '../Wrappers/DesignerComponentWrapper';

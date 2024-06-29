@@ -6,7 +6,7 @@ import {
   removePropertyByPath,
   updateElementProperties,
   UpdateUiElementByKey,
-} from '../helpers';
+} from '../Schema/helpers';
 import {
   ControlEffect,
   DataSchema,

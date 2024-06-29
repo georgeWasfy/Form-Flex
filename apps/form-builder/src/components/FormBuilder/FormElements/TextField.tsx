@@ -17,7 +17,7 @@ import {
   UseFormReturn,
 } from 'react-hook-form';
 import RulesForm from '../Designer/SidebarRulesForm';
-import { buildConditionObject, findPath } from '../helpers';
+import { buildConditionObject, findPath } from '../Schema/helpers';
 import useDesigner from '../Hooks/useDesigner';
 import {
   FormElement,

@@ -22,8 +22,3 @@ const queryFn = (
   handlerFunction: (...args: any) => Promise<any>
 ) => handlerFunction(params);
 
-// export function useInvalidateMilestones() {
-//   const queryClient = useQueryClient();
-//   return () =>
-//     queryClient.invalidateQueries<Milestone[]>(['package-milestones']);
-// }
