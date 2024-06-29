@@ -1,4 +1,4 @@
-import { TextAlignCenterIcon } from '@radix-ui/react-icons';
+import { ContainerIcon } from '@radix-ui/react-icons';
 import { ReactNode } from 'react';
 import { FormElement, FormElementInstance } from '../types';
 
@@ -11,7 +11,7 @@ export const VerticalLayoutElement: FormElement = {
     uiSchema: { key, name: key, type: 'VerticalLayout', elements: [] },
   }),
   designerBtnElement: {
-    icon: TextAlignCenterIcon,
+    icon: ContainerIcon,
     label: 'Vertical',
   },
   designerComponent: DesignerComponent,

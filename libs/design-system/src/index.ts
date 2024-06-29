@@ -13,7 +13,7 @@ export * from './lib/CheckBox';
 export * from './lib/TextArea';
 export * from './lib/Label';
 export * from './lib/data-table';
-export * from './lib/table';
+export * from './lib/Table';
 export * from './lib/Tooltip';
 export * from './lib/HorizontalLayout';
 export * from './lib/VerticalLayout';
@@ -24,3 +24,5 @@ export * from './lib/Progress';
 export * from './lib/DatePickers';
 export * from './lib/FormSelect';
 export * from './lib/Accordion';
+export * from './lib/Stepper';
+

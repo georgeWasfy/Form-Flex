@@ -156,6 +156,48 @@ export const ElementRenderer = ({
                 ) : null}
               </GroupAccordionLayout>
             );
+          case 'MultistepLayout':
+            const MultistepLayout =
+              FormElements['MultistepLayout' as ElementsType].formComponent;
+            return isDesigner ? (
+              <LayoutComponentWrapper
+                key={el.key}
+                element={{
+                  key: el.key,
+                  type: 'Layout',
+                  subtype: 'MultistepLayout',
+                  uiSchema: el,
+                }}
+              >
+                {el?.elements?.length ? (
+                  <ElementRenderer
+                    item={el.elements}
+                    dataSchema={dataSchema}
+                    isDesigner={isDesigner}
+                    form={form}
+                  />
+                ) : null}
+              </LayoutComponentWrapper>
+            ) : (
+              <MultistepLayout
+                key={el.key}
+                elementInstance={{
+                  key: el.key,
+                  type: 'Layout',
+                  subtype: 'MultistepLayout',
+                  uiSchema: el,
+                }}
+              >
+                {el?.elements?.length ? (
+                  <ElementRenderer
+                    item={el.elements}
+                    dataSchema={dataSchema}
+                    isDesigner={isDesigner}
+                    form={form}
+                  />
+                ) : null}
+              </MultistepLayout>
+            );
 
           case 'Control':
             const scope = el.scope;

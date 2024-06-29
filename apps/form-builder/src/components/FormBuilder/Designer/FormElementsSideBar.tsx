@@ -28,6 +28,7 @@ const FormElementsSideBar = () => {
       </div>
       <div className="flex flex-row gap-3">
         <SidebarBtnElement formElement={FormElements.GroupAccordionLayout} />
+        <SidebarBtnElement formElement={FormElements.MultistepLayout} />
       </div>
     </div>
   );

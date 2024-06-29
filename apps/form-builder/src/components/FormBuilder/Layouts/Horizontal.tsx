@@ -1,4 +1,4 @@
-import { TextAlignCenterIcon } from '@radix-ui/react-icons';
+import { SectionIcon } from '@radix-ui/react-icons';
 import { ReactNode } from 'react';
 import { FormElement } from '../types';
 
@@ -11,7 +11,7 @@ export const HorizontalLayoutElement: FormElement = {
     uiSchema: { key, name: key, type: 'HorizontalLayout', elements: [] },
   }),
   designerBtnElement: {
-    icon: TextAlignCenterIcon,
+    icon: SectionIcon,
     label: 'Horizontal',
   },
   designerComponent: DesignerComponent,
