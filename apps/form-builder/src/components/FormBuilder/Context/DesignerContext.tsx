@@ -42,6 +42,7 @@ type DesignerContextType = {
   >;
   uiElementsState: Map<string, ControlEffect>;
   addSteps: (element: FormElementInstance, steps: any[]) => void;
+  setActiveStep: (step: number, element: FormElementInstance) => void
 };
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);
@@ -271,6 +272,16 @@ export default function DesignerContextProvider({
   const addSteps = (element: FormElementInstance, steps: any[]) => {
     setUISchema({ ...element.uiSchema, elements: steps });
   };
+  const setActiveStep = (step: number, element: FormElementInstance) => {
+    let uiSchemaLayoutPath = findPath(uiSchema, 'key', element.key);
+    console.log("🚀 ~ setActiveStep ~ uiSchemaLayoutPath:", uiSchemaLayoutPath)
+    // const newUISchema = updateElementProperties(
+    //   uiSchema,
+    //   uiSchemaLayoutPath!,
+    //   element.uiSchema
+    // );
+    // set
+  }
   return (
     <DesignerContext.Provider
       value={{
@@ -288,6 +299,7 @@ export default function DesignerContextProvider({
         elementsToWatch,
         uiElementsState,
         addSteps,
+        setActiveStep
       }}
     >
       {children}

@@ -26,15 +26,16 @@ export const StepLayoutElement: FormElement = {
   propertiesComponent: () => <div>Designer component</div>,
 };
 function DesignerComponent({
-  children,
   elementInstance,
+  isHidden
 }: {
-  elementInstance: FormElementInstance;
-  children?: ReactNode;
+    elementInstance: FormElementInstance;
+    isHidden?: boolean;
 }) {
-
   return (
-      <>{ children}</>
+    <>
+      <div className={`border-secondary border-4 ${isHidden ? 'hidden' : ''}`}>single step</div>
+    </>
   );
 }
 
@@ -45,9 +46,5 @@ function FormComponent({
   elementInstance: FormElementInstance;
   children?: ReactNode;
 }) {
-
-  return (
-      <>{children}</>
-  );
+  return <>{children}</>;
 }
-

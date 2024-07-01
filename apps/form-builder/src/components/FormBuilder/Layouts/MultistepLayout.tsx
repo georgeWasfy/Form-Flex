@@ -1,6 +1,7 @@
 import { LayoutIcon } from '@radix-ui/react-icons';
 import { ReactNode, useState } from 'react';
 import {
+  ElementsType,
   FormElement,
   FormElementInstance,
   FormElements,
@@ -24,6 +25,7 @@ export const MiltistepLayoutElement: FormElement = {
       type: 'MultistepLayout',
       label: 'Multistep',
       elements: [],
+      activeStep: 1,
     },
   }),
   designerBtnElement: {
@@ -44,11 +46,15 @@ function DesignerComponent({
   children?: ReactNode;
 }) {
   const [formStep, setFormStep] = useState(0);
+  const { setActiveStep } = useDesigner();
+  setActiveStep(formStep, elementInstance);
   const totalSteps = elementInstance.uiSchema.elements?.length || 0;
-  const steps =
+  const stepsLabels =
     elementInstance.uiSchema.elements?.map((element) => element.label || '') ||
     [];
-
+  const StepLayout =
+    FormElements['StepLayout' as ElementsType].designerComponent;
+  const steps = elementInstance.uiSchema.elements;
   const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
 
   const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
@@ -57,12 +63,25 @@ function DesignerComponent({
     <div className="grid grid-cols-6 divide-y divide-none min-w-[100px] min-h-[150px] border-secondary border-4">
       <div className="col-start-1 col-end-7">
         <h4 className="font-medium leading-tight text-2xl mt-0 mb-2 text-slate-600">
-          <Stepper steps={steps} activeTabIndex={formStep} />
+          <Stepper steps={stepsLabels} activeTabIndex={formStep} />
         </h4>
-        {children}
+        {steps?.map((step, idx) => (
+          <>
+            <StepLayout
+              key={step.key}
+              isHidden={idx !== formStep}
+              elementInstance={{
+                key: step.key,
+                type: 'Layout',
+                subtype: 'StepLayout',
+                uiSchema: step,
+              }}
+            />
+          </>
+        ))}
       </div>
 
-      <div className="col-start-6 col-end-7">
+      <div className="col-start-6 col-end-7 z-10">
         <Button
           type="button"
           disabled={formStep >= totalSteps - 1}

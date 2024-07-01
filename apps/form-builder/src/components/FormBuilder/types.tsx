@@ -57,6 +57,7 @@ export type FormElement = {
     elementInstance: FormElementInstance;
     cols?: number;
     children?: ReactNode;
+    isHidden?: boolean;
   }>;
   formComponent: React.FC<{
     elementInstance: FormElementInstance;
