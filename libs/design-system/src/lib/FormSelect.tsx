@@ -1,12 +1,12 @@
-import RSelect, { Props } from 'react-select';
+import RSelect, { Props, SelectInstance } from 'react-select';
 import { cn } from './utils/helpers';
+import { ReactElement, Ref, forwardRef } from 'react';
 
-export function FormSelect<Option, isMulti extends boolean = false>(
-  props: Props<Option, isMulti>
-) {
+export const FormSelect = forwardRef((props, ref) => {
   return (
     <>
       <RSelect
+        ref={ref}
         {...props}
         unstyled
         closeMenuOnSelect={!props.isMulti}
@@ -32,4 +32,6 @@ export function FormSelect<Option, isMulti extends boolean = false>(
       />
     </>
   );
-}
+}) as <Option, isMulti extends boolean = false>(
+  props: Props<Option, isMulti> & {ref?: Ref<SelectInstance<Option, isMulti>>}
+) => ReactElement;
