@@ -3,6 +3,7 @@ import { FormElementInstance } from '../types';
 import {
   addPropertyByPath,
   findPath,
+  findUiElementByKey,
   removePropertyByPath,
   updateElementProperties,
   UpdateUiElementByKey,
@@ -215,10 +216,11 @@ export default function DesignerContextProvider({
     element: FormElementInstance,
     layoutKey: string
   ) => {
-    let uiSchemaLayoutPath = findPath(uiSchema, 'key', layoutKey);
-    uiSchemaLayoutPath = uiSchemaLayoutPath?.replace('/key', '');
-    uiSchemaLayoutPath = uiSchemaLayoutPath?.replace('/', '');
-
+    const parentLayout = findUiElementByKey(layoutKey, uiSchema!)
+    if (parentLayout?.type === 'MultistepLayout' && parentLayout.elements?.length) {
+      //@ts-ignore
+      layoutKey = parentLayout.elements[parentLayout.activeStep - 1].key
+    }
     const newUISchema = UpdateUiElementByKey(layoutKey, uiSchema!, element);
 
     setUISchema(newUISchema);
@@ -273,14 +275,11 @@ export default function DesignerContextProvider({
     setUISchema({ ...element.uiSchema, elements: steps });
   };
   const setActiveStep = (step: number, element: FormElementInstance) => {
-    let uiSchemaLayoutPath = findPath(uiSchema, 'key', element.key);
-    console.log("🚀 ~ setActiveStep ~ uiSchemaLayoutPath:", uiSchemaLayoutPath)
-    // const newUISchema = updateElementProperties(
-    //   uiSchema,
-    //   uiSchemaLayoutPath!,
-    //   element.uiSchema
-    // );
-    // set
+    const newUiSchema = {
+      ...element.uiSchema,
+      activeStep: step + 1
+    }
+    setUISchema(newUiSchema)
   }
   return (
     <DesignerContext.Provider

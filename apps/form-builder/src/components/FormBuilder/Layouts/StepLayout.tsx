@@ -1,6 +1,8 @@
 import { LayoutIcon } from '@radix-ui/react-icons';
 import { ReactNode } from 'react';
 import { FormElement, FormElementInstance } from '../types';
+import { ElementRenderer } from '../Renderers/ElementRenderer';
+import useDesigner from '../Hooks/useDesigner';
 
 export const StepLayoutElement: FormElement = {
   type: 'StepLayout',
@@ -27,24 +29,30 @@ export const StepLayoutElement: FormElement = {
 };
 function DesignerComponent({
   elementInstance,
-  isHidden
 }: {
-    elementInstance: FormElementInstance;
-    isHidden?: boolean;
+  elementInstance: FormElementInstance;
 }) {
+  const { dataSchema } = useDesigner();
   return (
-    <>
-      <div className={`border-secondary border-4 ${isHidden ? 'hidden' : ''}`}>single step</div>
-    </>
+    <ElementRenderer
+      item={[elementInstance.uiSchema as any]}
+      dataSchema={dataSchema}
+      isDesigner={true}
+    />
   );
 }
 
 function FormComponent({
-  children,
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
-  children?: ReactNode;
 }) {
-  return <>{children}</>;
+  const { dataSchema } = useDesigner();
+  return (
+    <ElementRenderer
+      item={[elementInstance.uiSchema as any]}
+      dataSchema={dataSchema}
+      isDesigner={false}
+    />
+  );
 }

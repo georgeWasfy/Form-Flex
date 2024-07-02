@@ -1,16 +1,14 @@
 import { LayoutIcon } from '@radix-ui/react-icons';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   ElementsType,
   FormElement,
   FormElementInstance,
   FormElements,
-  Operator,
 } from '../types';
 import { Button, Input, Label, Stepper } from '@engine/design-system';
 import { Controller, useForm } from 'react-hook-form';
 import useDesigner from '../Hooks/useDesigner';
-import { SchemaProperty, UISchema } from '@engine/shared-types';
 import ShortUniqueId from 'short-unique-id';
 
 export const MiltistepLayoutElement: FormElement = {
@@ -39,16 +37,18 @@ export const MiltistepLayoutElement: FormElement = {
 };
 
 function DesignerComponent({
-  children,
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
-  children?: ReactNode;
 }) {
   const [formStep, setFormStep] = useState(0);
   const { setActiveStep } = useDesigner();
-  setActiveStep(formStep, elementInstance);
+  useEffect(() => {
+    setActiveStep(formStep, elementInstance);
+  }, [formStep]);
   const totalSteps = elementInstance.uiSchema.elements?.length || 0;
+  //@ts-ignore
+  const activeStep = elementInstance.uiSchema.activeStep;
   const stepsLabels =
     elementInstance.uiSchema.elements?.map((element) => element.label || '') ||
     [];
@@ -65,31 +65,20 @@ function DesignerComponent({
         <h4 className="font-medium leading-tight text-2xl mt-0 mb-2 text-slate-600">
           <Stepper steps={stepsLabels} activeTabIndex={formStep} />
         </h4>
-        {steps?.map((step, idx) => (
-          <>
-            <StepLayout
-              key={step.key}
-              isHidden={idx !== formStep}
-              elementInstance={{
-                key: step.key,
-                type: 'Layout',
-                subtype: 'StepLayout',
-                uiSchema: step,
-              }}
-            />
-          </>
-        ))}
+        {steps?.length && (
+          <StepLayout
+            key={steps[activeStep - 1].key}
+            elementInstance={{
+              key: steps[activeStep - 1].key,
+              type: 'Layout',
+              subtype: 'StepLayout',
+              uiSchema: steps[activeStep - 1],
+            }}
+          />
+        )}
       </div>
 
-      <div className="col-start-6 col-end-7 z-10">
-        <Button
-          type="button"
-          disabled={formStep >= totalSteps - 1}
-          variant={'link'}
-          onClick={nextFormStep}
-        >
-          next
-        </Button>
+      <div className="col-start-6 col-end-7">
         <Button
           type="button"
           disabled={formStep <= 0}
@@ -97,6 +86,14 @@ function DesignerComponent({
           onClick={prevFormStep}
         >
           prev
+        </Button>
+        <Button
+          type="button"
+          disabled={formStep >= totalSteps - 1}
+          variant={'link'}
+          onClick={nextFormStep}
+        >
+          next
         </Button>
       </div>
     </div>
@@ -104,15 +101,23 @@ function DesignerComponent({
 }
 
 function FormComponent({
-  children,
   elementInstance,
 }: {
   elementInstance: FormElementInstance;
-  children?: ReactNode;
 }) {
   const [formStep, setFormStep] = useState(0);
-  const totalSteps = 2;
-
+  const { setActiveStep } = useDesigner();
+  useEffect(() => {
+    setActiveStep(formStep, elementInstance);
+  }, [formStep]);
+  const totalSteps = elementInstance.uiSchema.elements?.length || 0;
+  //@ts-ignore
+  const activeStep = elementInstance.uiSchema.activeStep;
+  const stepsLabels =
+    elementInstance.uiSchema.elements?.map((element) => element.label || '') ||
+    [];
+  const StepLayout = FormElements['StepLayout' as ElementsType].formComponent;
+  const steps = elementInstance.uiSchema.elements;
   const nextFormStep = () => setFormStep((currentStep) => currentStep + 1);
 
   const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
@@ -120,28 +125,40 @@ function FormComponent({
     <div className="grid grid-cols-6 divide-y divide-none">
       <div className="col-start-1 col-end-7">
         <h4 className="font-medium leading-tight text-2xl mt-0 mb-2 text-slate-600">
-          <Stepper steps={['step1', 'step2']} activeTabIndex={formStep} />
+          <Stepper steps={stepsLabels} activeTabIndex={formStep} />
         </h4>
-        {children}
+        {steps?.length && (
+          <StepLayout
+            key={steps[activeStep - 1].key}
+            elementInstance={{
+              key: steps[activeStep - 1].key,
+              type: 'Layout',
+              subtype: 'StepLayout',
+              uiSchema: steps[activeStep - 1],
+            }}
+          />
+        )}
       </div>
 
       <div className="col-start-6 col-end-7">
-        <Button
-          type="button"
-          disabled={formStep >= totalSteps - 1}
-          variant={'link'}
-          onClick={nextFormStep}
-        >
-          next
-        </Button>
-        <Button
-          type="button"
-          disabled={formStep <= 0}
-          variant={'link'}
-          onClick={prevFormStep}
-        >
-          prev
-        </Button>
+        <div className="flex justify-end">
+          <Button
+            type="button"
+            disabled={formStep <= 0}
+            variant={'link'}
+            onClick={prevFormStep}
+          >
+            prev
+          </Button>
+          <Button
+            type="button"
+            disabled={formStep >= totalSteps - 1}
+            variant={'link'}
+            onClick={nextFormStep}
+          >
+            next
+          </Button>
+        </div>
       </div>
     </div>
   );

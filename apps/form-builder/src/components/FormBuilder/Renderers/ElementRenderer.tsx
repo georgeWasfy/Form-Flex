@@ -188,7 +188,14 @@ export const ElementRenderer = ({
                 ) : null}
               </MultistepLayout>
             );
-
+          case 'StepLayout':
+            return el?.elements?.length ? (
+              <ElementRenderer
+                item={el.elements}
+                dataSchema={dataSchema}
+                isDesigner={isDesigner}
+              />
+            ) : null;
           case 'Control':
             const scope = el.scope;
             if (
