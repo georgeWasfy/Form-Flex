@@ -1,5 +1,4 @@
 import { LayoutIcon } from '@radix-ui/react-icons';
-import { ReactNode } from 'react';
 import { FormElement, FormElementInstance } from '../types';
 import { ElementRenderer } from '../Renderers/ElementRenderer';
 import useDesigner from '../Hooks/useDesigner';
@@ -35,7 +34,7 @@ function DesignerComponent({
   const { dataSchema } = useDesigner();
   return (
     <ElementRenderer
-      item={[elementInstance.uiSchema as any]}
+      uischema={[elementInstance.uiSchema]}
       dataSchema={dataSchema}
       isDesigner={true}
     />
@@ -50,7 +49,7 @@ function FormComponent({
   const { dataSchema } = useDesigner();
   return (
     <ElementRenderer
-      item={[elementInstance.uiSchema as any]}
+      uischema={[elementInstance.uiSchema]}
       dataSchema={dataSchema}
       isDesigner={false}
     />

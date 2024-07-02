@@ -54,6 +54,7 @@ export type FormElement = {
   construct: (key: string) => FormElementInstance;
   designerComponent: React.FC<{
     elementInstance: FormElementInstance;
+    children?: ReactNode;
   }>;
   formComponent: React.FC<{
     elementInstance: FormElementInstance;
@@ -65,9 +66,12 @@ export type FormElement = {
   }>;
 };
 
+export const INPUT = 'Input' 
+export const LAYOUT = 'Layout'
+
 export type FormElementInstance = {
   key: string;
-  type: 'Input' | 'Layout';
+  type: typeof INPUT | typeof LAYOUT;
   subtype: ElementsType;
   uiSchema: UISchema;
   dataSchema?: SchemaProperty;
@@ -75,6 +79,7 @@ export type FormElementInstance = {
 type FormElementsType = {
   [key in ElementsType]: FormElement;
 };
+
 
 export const FormElements: FormElementsType = {
   TextField: TextFieldFormElement,

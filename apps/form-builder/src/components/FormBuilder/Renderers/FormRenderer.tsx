@@ -61,7 +61,7 @@ const FormRenderer = ({
       <form onSubmit={form.handleSubmit(onSubmit)}>
         {dataSchema && uiSchema && (
           <ElementRenderer
-            item={[uiSchema as any]}
+            uischema={[uiSchema]}
             dataSchema={dataSchema}
             isDesigner={isDesigner}
           />

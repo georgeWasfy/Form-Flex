@@ -6,17 +6,20 @@ import {
 } from '@engine/shared-types';
 import { findPropertyFromScope } from '../SchemaBuilder/helpers';
 import useDesigner from '../Hooks/useDesigner';
-import { FormElements, ElementsType, EffectMap } from '../types';
-import DesignerComponentWrapper from '../Wrappers/DesignerComponentWrapper';
-import FormComponentWrapper from '../Wrappers/FormComponentWrapper';
-import LayoutComponentWrapper from '../Wrappers/LayoutComponentWrapper';
+import { EffectMap } from '../types';
+import {
+  GenerateDesignerControl,
+  GenerateDesignerLayout,
+  GenerateFormControl,
+  GenerateFormLayout,
+} from './ElementFactory';
 
 export const ElementRenderer = ({
-  item,
+  uischema,
   dataSchema,
   isDesigner,
 }: {
-  item: UISchema[];
+  uischema: UISchema[];
   dataSchema: any;
   isDesigner: boolean;
 }) => {
@@ -24,174 +27,52 @@ export const ElementRenderer = ({
 
   return (
     <>
-      {item.map((el) => {
+      {uischema.map((el) => {
         switch (el.type) {
           case 'VerticalLayout':
-            const VericalLayout =
-              FormElements['VerticalLayout' as ElementsType].formComponent;
             return isDesigner ? (
-              <LayoutComponentWrapper
-                key={el.key}
-                element={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'VerticalLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </LayoutComponentWrapper>
+              <GenerateDesignerLayout uiSchema={el} key={el.key} />
             ) : (
-              <VericalLayout
+              <GenerateFormLayout
+                uiSchema={el}
+                layoutType="VerticalLayout"
                 key={el.key}
-                elementInstance={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'VerticalLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </VericalLayout>
+              />
             );
           case 'HorizontalLayout':
-            const HorizontalLayout =
-              FormElements['HorizontalLayout' as ElementsType].formComponent;
             return isDesigner ? (
-              <LayoutComponentWrapper
-                key={el.key}
-                element={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'HorizontalLayout',
-                  uiSchema: el,
-                }}
-              >
-                {' '}
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}{' '}
-              </LayoutComponentWrapper>
+              <GenerateDesignerLayout uiSchema={el} key={el.key} />
             ) : (
-              <HorizontalLayout
+              <GenerateFormLayout
+                uiSchema={el}
+                layoutType="HorizontalLayout"
                 key={el.key}
-                elementInstance={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'HorizontalLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </HorizontalLayout>
+              />
             );
           case 'GroupAccordionLayout':
-            const GroupAccordionLayout =
-              FormElements['GroupAccordionLayout' as ElementsType]
-                .formComponent;
             return isDesigner ? (
-              <LayoutComponentWrapper
-                key={el.key}
-                element={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'GroupAccordionLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </LayoutComponentWrapper>
+              <GenerateDesignerLayout uiSchema={el} key={el.key} />
             ) : (
-              <GroupAccordionLayout
+              <GenerateFormLayout
+                uiSchema={el}
+                layoutType="GroupAccordionLayout"
                 key={el.key}
-                elementInstance={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'GroupAccordionLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </GroupAccordionLayout>
+              />
             );
           case 'MultistepLayout':
-            const MultistepLayout =
-              FormElements['MultistepLayout' as ElementsType].formComponent;
             return isDesigner ? (
-              <LayoutComponentWrapper
-                key={el.key}
-                element={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'MultistepLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </LayoutComponentWrapper>
+              <GenerateDesignerLayout uiSchema={el} key={el.key} />
             ) : (
-              <MultistepLayout
+              <GenerateFormLayout
+                uiSchema={el}
+                layoutType="MultistepLayout"
                 key={el.key}
-                elementInstance={{
-                  key: el.key,
-                  type: 'Layout',
-                  subtype: 'MultistepLayout',
-                  uiSchema: el,
-                }}
-              >
-                {el?.elements?.length ? (
-                  <ElementRenderer
-                    item={el.elements}
-                    dataSchema={dataSchema}
-                    isDesigner={isDesigner}
-                  />
-                ) : null}
-              </MultistepLayout>
+              />
             );
           case 'StepLayout':
             return el?.elements?.length ? (
               <ElementRenderer
-                item={el.elements}
+                uischema={el.elements}
                 dataSchema={dataSchema}
                 isDesigner={isDesigner}
               />
@@ -221,66 +102,18 @@ export const ElementRenderer = ({
             const elementDataSchema = {
               [el.name ?? el.key]: elementSchemaProperties,
             } as SchemaProperty;
-
-            let element;
-            let subtype = 'TextField';
-            switch (elementSchemaProperties?.type) {
-              case 'string':
-                if (el.variant === 'TextArea') subtype = 'TextAreaField';
-                if (el.variant === 'Date') subtype = 'DateField';
-                if (el.variant === 'SingleSelect') subtype = 'SelectField';
-                element = {
-                  key: el.key,
-                  type: 'Input' as 'Input',
-                  subtype: subtype as ElementsType,
-                  dataSchema: elementDataSchema,
-                  uiSchema: el,
-                };
-                break;
-              case 'number':
-                element = {
-                  key: el.key,
-                  type: 'Input' as 'Input',
-                  subtype: 'NumberField' as ElementsType,
-                  dataSchema: elementDataSchema,
-                  uiSchema: el,
-                };
-                break;
-              case 'array':
-                element = {
-                  key: el.key,
-                  type: 'Input' as 'Input',
-                  subtype: 'MultiSelectField' as ElementsType,
-                  dataSchema: elementDataSchema,
-                  uiSchema: el,
-                };
-                break;
-              case 'object':
-                element = {
-                  key: el.key,
-                  type: 'Input' as 'Input',
-                  subtype: 'DateRangeField' as ElementsType,
-                  dataSchema: elementDataSchema,
-                  uiSchema: el,
-                };
-                break;
-
-              default:
-                break;
-            }
-
-            return element ? (
-              isDesigner ? (
-                <DesignerComponentWrapper key={element.key} element={element} />
-              ) : (
-                <FormComponentWrapper
-                  key={element.key}
-                  element={element}
-                  effect={uiElementsState.get(element.uiSchema.name)}
-                />
-              )
+            return isDesigner ? (
+              <GenerateDesignerControl
+                uiSchema={el}
+                key={el.key}
+                elementDataSchema={elementDataSchema}
+              />
             ) : (
-              <div></div>
+              <GenerateFormControl
+                uiSchema={el}
+                key={el.key}
+                elementDataSchema={elementDataSchema}
+              />
             );
         }
       })}
