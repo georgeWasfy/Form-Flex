@@ -3,7 +3,7 @@ import { Button } from '@engine/design-system';
 import { ElementRenderer } from './ElementRenderer';
 import useDesigner from '../Hooks/useDesigner';
 import { useEffect, useState } from 'react';
-import { evaluateRule } from '../Schema/helpers';
+import { evaluateRule } from '../SchemaBuilder/helpers';
 import { EffectMap } from '../types';
 import useCustomeForm from '../Hooks/useForm';
 

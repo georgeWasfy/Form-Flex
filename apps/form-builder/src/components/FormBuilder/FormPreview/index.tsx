@@ -1,9 +1,10 @@
 import { Modal } from '@engine/design-system';
 import { DataSchema, UISchema } from '@engine/shared-types';
 import { ReactNode } from 'react';
-import useDesigner from './Hooks/useDesigner';
-import FormRenderer from './Renderers/FormRenderer';
-import FormContextProvider from './Context/FormContext';
+import FormContextProvider from '../Context/FormContext';
+import useDesigner from '../Hooks/useDesigner';
+import FormRenderer from '../Renderers/FormRenderer';
+
 
 const FormPreview = ({
   previewDataSchema,

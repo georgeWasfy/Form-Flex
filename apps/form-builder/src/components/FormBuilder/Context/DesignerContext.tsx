@@ -7,7 +7,7 @@ import {
   removePropertyByPath,
   updateElementProperties,
   UpdateUiElementByKey,
-} from '../Schema/helpers';
+} from '../SchemaBuilder/helpers';
 import {
   ControlEffect,
   DataSchema,
@@ -43,7 +43,7 @@ type DesignerContextType = {
   >;
   uiElementsState: Map<string, ControlEffect>;
   addSteps: (element: FormElementInstance, steps: any[]) => void;
-  setActiveStep: (step: number, element: FormElementInstance) => void
+  setActiveStep: (step: number, element: FormElementInstance) => void;
 };
 
 export const DesignerContext = createContext<DesignerContextType | null>(null);
@@ -216,10 +216,13 @@ export default function DesignerContextProvider({
     element: FormElementInstance,
     layoutKey: string
   ) => {
-    const parentLayout = findUiElementByKey(layoutKey, uiSchema!)
-    if (parentLayout?.type === 'MultistepLayout' && parentLayout.elements?.length) {
+    const parentLayout = findUiElementByKey(layoutKey, uiSchema!);
+    if (
+      parentLayout?.type === 'MultistepLayout' &&
+      parentLayout.elements?.length
+    ) {
       //@ts-ignore
-      layoutKey = parentLayout.elements[parentLayout.activeStep - 1].key
+      layoutKey = parentLayout.elements[parentLayout.activeStep - 1].key;
     }
     const newUISchema = UpdateUiElementByKey(layoutKey, uiSchema!, element);
 
@@ -277,10 +280,10 @@ export default function DesignerContextProvider({
   const setActiveStep = (step: number, element: FormElementInstance) => {
     const newUiSchema = {
       ...element.uiSchema,
-      activeStep: step + 1
-    }
-    setUISchema(newUiSchema)
-  }
+      activeStep: step + 1,
+    };
+    setUISchema(newUiSchema);
+  };
   return (
     <DesignerContext.Provider
       value={{
@@ -298,7 +301,7 @@ export default function DesignerContextProvider({
         elementsToWatch,
         uiElementsState,
         addSteps,
-        setActiveStep
+        setActiveStep,
       }}
     >
       {children}

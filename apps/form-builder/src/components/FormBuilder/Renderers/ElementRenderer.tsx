@@ -4,7 +4,7 @@ import {
   SchemaProperty,
   ControlEffect,
 } from '@engine/shared-types';
-import { findPropertyFromScope } from '../Schema/helpers';
+import { findPropertyFromScope } from '../SchemaBuilder/helpers';
 import useDesigner from '../Hooks/useDesigner';
 import { FormElements, ElementsType, EffectMap } from '../types';
 import DesignerComponentWrapper from '../Wrappers/DesignerComponentWrapper';
