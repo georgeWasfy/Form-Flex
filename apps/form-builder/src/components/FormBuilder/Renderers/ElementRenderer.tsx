@@ -4,7 +4,6 @@ import {
   SchemaProperty,
   ControlEffect,
 } from '@engine/shared-types';
-import { UseFormReturn, FieldValues } from 'react-hook-form';
 import { findPropertyFromScope } from '../Schema/helpers';
 import useDesigner from '../Hooks/useDesigner';
 import { FormElements, ElementsType, EffectMap } from '../types';
@@ -16,14 +15,13 @@ export const ElementRenderer = ({
   item,
   dataSchema,
   isDesigner,
-  form,
 }: {
   item: UISchema[];
   dataSchema: any;
   isDesigner: boolean;
-  form: UseFormReturn<FieldValues, any, undefined>;
 }) => {
   const { elementsToWatch, uiElementsState } = useDesigner();
+
   return (
     <>
       {item.map((el) => {
@@ -46,7 +44,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </LayoutComponentWrapper>
@@ -65,7 +62,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </VericalLayout>
@@ -89,7 +85,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}{' '}
               </LayoutComponentWrapper>
@@ -108,7 +103,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </HorizontalLayout>
@@ -132,7 +126,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </LayoutComponentWrapper>
@@ -151,7 +144,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </GroupAccordionLayout>
@@ -174,7 +166,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </LayoutComponentWrapper>
@@ -193,7 +184,6 @@ export const ElementRenderer = ({
                     item={el.elements}
                     dataSchema={dataSchema}
                     isDesigner={isDesigner}
-                    form={form}
                   />
                 ) : null}
               </MultistepLayout>
@@ -279,7 +269,6 @@ export const ElementRenderer = ({
                 <FormComponentWrapper
                   key={element.key}
                   element={element}
-                  form={form}
                   effect={uiElementsState.get(element.uiSchema.name)}
                 />
               )

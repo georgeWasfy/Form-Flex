@@ -1,12 +1,11 @@
 import { UISchema, DataSchema, ControlEffect } from '@engine/shared-types';
-import { useForm } from 'react-hook-form';
-import { ajvResolver } from '@hookform/resolvers/ajv';
 import { Button } from '@engine/design-system';
 import { ElementRenderer } from './ElementRenderer';
 import useDesigner from '../Hooks/useDesigner';
 import { useEffect, useState } from 'react';
 import { evaluateRule } from '../Schema/helpers';
 import { EffectMap } from '../types';
+import useCustomeForm from '../Hooks/useForm';
 
 const FormRenderer = ({
   dataSchema,
@@ -17,28 +16,8 @@ const FormRenderer = ({
   uiSchema?: UISchema;
   isDesigner: boolean;
 }) => {
-  const form = useForm({
-    resolver: async (data, context, options) => {
-      // you can debug your validation schema here
-      // console.log('formData', data);
-      // console.log(
-      //   'validation result',
-      //   await ajvResolver(dataSchema as any, { strict: false })(
-      //     data,
-      //     context,
-      //     options
-      //   )
-      // );
-      return ajvResolver(dataSchema as any, { strict: false })(
-        data,
-        context,
-        options
-      );
-    },
-    mode: 'all',
-  });
   const [forceRender, setForceRender] = useState(false);
-
+  const { form } = useCustomeForm();
   const { elementsToWatch, uiElementsState } = useDesigner();
 
   // Handle Rules
@@ -85,7 +64,6 @@ const FormRenderer = ({
             item={[uiSchema as any]}
             dataSchema={dataSchema}
             isDesigner={isDesigner}
-            form={form}
           />
         )}
         {!isDesigner && (

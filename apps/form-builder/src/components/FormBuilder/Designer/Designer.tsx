@@ -5,6 +5,7 @@ import useDesigner from '../Hooks/useDesigner';
 import { ElementsType, FormElements } from '../types';
 import ShortUniqueId from 'short-unique-id';
 import FormRenderer from '../Renderers/FormRenderer';
+import FormContextProvider from '../Context/FormContext';
 const Designer = () => {
   const uniqueId = new ShortUniqueId({ length: 16 });
   const {
@@ -88,11 +89,13 @@ const Designer = () => {
             </div>
           )}
           <div>
-            <FormRenderer
-              dataSchema={dataSchema}
-              uiSchema={uiSchema}
-              isDesigner={true}
-            />
+            <FormContextProvider>
+              <FormRenderer
+                dataSchema={dataSchema}
+                uiSchema={uiSchema}
+                isDesigner={true}
+              />
+            </FormContextProvider>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import {
 } from 'react-hook-form';
 import useDesigner from '../Hooks/useDesigner';
 import { FormElement, FormElementInstance } from '../types';
+import useCustomeForm from '../Hooks/useForm';
 
 export const DateFieldFormElement: FormElement = {
   type: 'DateField',
@@ -73,13 +74,12 @@ function DesignerComponent({
 
 function FormComponent({
   elementInstance,
-  form,
 }: {
   elementInstance: FormElementInstance;
-  form?: UseFormReturn<FieldValues, any, undefined>;
 }) {
   const elementKey = elementInstance.uiSchema.key;
   const elementName = elementInstance.uiSchema.name;
+  const { form } = useCustomeForm();
 
   return (
     <div className="flex flex-col gap-2 w-full">

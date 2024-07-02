@@ -26,6 +26,7 @@ import {
   Operator,
   RuleEffects,
 } from '../types';
+import useCustomeForm from '../Hooks/useForm';
 
 export const TextAreaFieldFormElement: FormElement = {
   type: 'TextAreaField',
@@ -95,15 +96,15 @@ function DesignerComponent({
 
 function FormComponent({
   elementInstance,
-  form,
   effect,
 }: {
   elementInstance: FormElementInstance;
-  form?: UseFormReturn<FieldValues, any, undefined>;
   effect?: ControlEffect;
 }) {
   const elementKey = elementInstance.uiSchema.key;
   const elementName = elementInstance.uiSchema.name;
+  const { form } = useCustomeForm();
+
   return (
     <div
       className={`"flex flex-col gap-2 w-full" ${

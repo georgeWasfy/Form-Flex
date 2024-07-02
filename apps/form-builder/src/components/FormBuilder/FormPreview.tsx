@@ -3,6 +3,7 @@ import { DataSchema, UISchema } from '@engine/shared-types';
 import { ReactNode } from 'react';
 import useDesigner from './Hooks/useDesigner';
 import FormRenderer from './Renderers/FormRenderer';
+import FormContextProvider from './Context/FormContext';
 
 const FormPreview = ({
   previewDataSchema,
@@ -22,11 +23,13 @@ const FormPreview = ({
         description="Form display preview"
       >
         <div className="flex w-full h-full">
-          <FormRenderer
-            dataSchema={previewDataSchema ?? dataSchema}
-            uiSchema={previewUISchema ?? uiSchema}
-            isDesigner={false}
-          />
+          <FormContextProvider>
+            <FormRenderer
+              dataSchema={previewDataSchema ?? dataSchema}
+              uiSchema={previewUISchema ?? uiSchema}
+              isDesigner={false}
+            />
+          </FormContextProvider>
         </div>
       </Modal>
     </div>
