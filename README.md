@@ -34,7 +34,7 @@ A schema based dynamic form builder with a drag and drop interface built with re
 
   
 
-- :x: Multi-step Layout
+- :white_check_mark: Multi-step Layout
 
   
 
@@ -63,6 +63,14 @@ Renders all child elements in a vertical display, with all child elements the en
   
 
 Renders all child elements inside a togglable accordion.
+
+
+
+### MultistepLayout
+
+  
+
+Renders a multi-step form layout with configurable number of steps.
 
   
 
@@ -146,7 +154,6 @@ Each element has different set of properties that can be customized by clicking 
 ### Text Area Field Properties
  - Height: The height for the text area input field
 
-<img src="./drop-down-properties.png" alt="Drop Down Properties" width="300" height="500">
 
 ## Preview
 
@@ -163,13 +170,7 @@ To run the project with Nx use the following syntax:
   
 
 ```
-
-  
-
 npx nx serve form-builder
-
-  
-
 ```
 
   
