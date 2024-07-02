@@ -1,6 +1,5 @@
 import { ControlEffect, SchemaProperty, UISchema } from '@engine/shared-types';
 import { ReactNode } from 'react';
-import { UseFormReturn, FieldValues } from 'react-hook-form';
 import { DateFieldFormElement } from './FormElements/DateField';
 import { DateRangeFieldFormElement } from './FormElements/DateRangeField';
 import { MultiSelectFieldFormElement } from './FormElements/MultiSelectField';
@@ -55,13 +54,9 @@ export type FormElement = {
   construct: (key: string) => FormElementInstance;
   designerComponent: React.FC<{
     elementInstance: FormElementInstance;
-    cols?: number;
-    children?: ReactNode;
-    isHidden?: boolean;
   }>;
   formComponent: React.FC<{
     elementInstance: FormElementInstance;
-    form?: UseFormReturn<FieldValues, any, undefined>;
     children?: ReactNode;
     effect?: ControlEffect;
   }>;
