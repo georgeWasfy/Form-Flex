@@ -47,8 +47,7 @@ function DesignerComponent({
     setActiveStep(formStep, elementInstance);
   }, [formStep]);
   const totalSteps = elementInstance.uiSchema.elements?.length || 0;
-  //@ts-ignore
-  const activeStep = elementInstance.uiSchema.activeStep;
+  const activeStep = elementInstance.uiSchema.activeStep || 1;
   const stepsLabels =
     elementInstance.uiSchema.elements?.map((element) => element.label || '') ||
     [];
@@ -111,8 +110,7 @@ function FormComponent({
     setActiveStep(formStep, elementInstance);
   }, [formStep]);
   const totalSteps = elementInstance.uiSchema.elements?.length || 0;
-  //@ts-ignore
-  const activeStep = elementInstance.uiSchema.activeStep;
+  const activeStep = elementInstance.uiSchema.activeStep || 1;
   const stepsLabels =
     elementInstance.uiSchema.elements?.map((element) => element.label || '') ||
     [];

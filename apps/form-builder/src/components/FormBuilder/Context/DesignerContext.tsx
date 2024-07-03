@@ -3,10 +3,8 @@ import { FormElementInstance } from '../types';
 import {
   addPropertyByPath,
   findPath,
-  findUiElementByKey,
   removePropertyByPath,
   updateElementProperties,
-  UpdateUiElementByKey,
 } from '../SchemaBuilder/helpers';
 import {
   ControlEffect,
@@ -15,6 +13,7 @@ import {
   SchemaPrimitiveType,
   UISchema,
 } from '@engine/shared-types';
+import { UISchemaBuilder } from '../SchemaBuilder/UISchemaBuilder';
 
 type DesignerContextType = {
   dataSchema: DataSchema;
@@ -83,27 +82,17 @@ export default function DesignerContextProvider({
       return new Map(prev);
     });
     let dataSchemaControlPath = findPath(dataSchema, 'key', key);
-    dataSchemaControlPath = dataSchemaControlPath?.replace('/key', '');
-    dataSchemaControlPath = dataSchemaControlPath?.replace('/', '');
-    let uiSchemaControlPath = findPath(uiSchema, 'key', key);
-    uiSchemaControlPath = uiSchemaControlPath?.replace('/', '');
-    uiSchemaControlPath = uiSchemaControlPath?.replace('/key', '');
     const updatedDataSchema = removePropertyByPath(
       dataSchema,
       dataSchemaControlPath!
     );
-    const updatedUISchema = removePropertyByPath(
-      uiSchema,
-      uiSchemaControlPath!
-    );
+    const updatedUISchema = new UISchemaBuilder()
+      .from(uiSchema)
+      .removeElement(key)
+      .getSchema();
 
     setDataSchema(updatedDataSchema);
-    setUISchema((prev) => {
-      return {
-        ...prev,
-        ...updatedUISchema,
-      };
-    });
+    setUISchema(updatedUISchema);
   };
 
   const removeLayout = (key: string) => {
@@ -111,23 +100,12 @@ export default function DesignerContextProvider({
       prev?.delete(key);
       return new Map(prev);
     });
-    let uiSchemaControlPath = findPath(uiSchema, 'key', key);
-    uiSchemaControlPath = uiSchemaControlPath?.replace('/', '');
-    uiSchemaControlPath = uiSchemaControlPath?.replace('/key', '');
-    const updatedUISchema = removePropertyByPath(
-      uiSchema,
-      uiSchemaControlPath!
-    );
-    if (Object.keys(updatedUISchema).length) {
-      setUISchema((prev) => {
-        return {
-          ...prev,
-          ...updatedUISchema,
-        };
-      });
-    } else {
-      setUISchema(undefined);
-    }
+    const updatedUISchema = new UISchemaBuilder()
+      .from(uiSchema)
+      .removeElement(key)
+      .getSchema();
+
+    setUISchema(updatedUISchema);
   };
   const addElementSchemas = (element: FormElementInstance) => {
     if (uiSchema === undefined && element.type === 'Input') {
@@ -148,21 +126,21 @@ export default function DesignerContextProvider({
           };
       });
     }
-    if (element.type === 'Input' && element.dataSchema) {
-      setDataSchema((prev) => {
-        return {
-          ...prev,
-          properties: {
-            ...prev.properties,
-            ...element.dataSchema!,
-          },
-        };
-      });
-    }
     if (element.type === 'Input') {
       setElementsMap(
         new Map(elementsMap.set(element.key, element.uiSchema.name))
       );
+      if (element.dataSchema) {
+        setDataSchema((prev) => {
+          return {
+            ...prev,
+            properties: {
+              ...prev.properties,
+              ...element.dataSchema!,
+            },
+          };
+        });
+      }
     }
   };
   const addElementInPosition = (
@@ -170,30 +148,19 @@ export default function DesignerContextProvider({
     keyOfElementBefore: string,
     position: 'before' | 'after'
   ) => {
-    let uiSchemaControlPath = findPath(uiSchema, 'key', keyOfElementBefore);
-    uiSchemaControlPath = uiSchemaControlPath?.replace('/key', '');
-    uiSchemaControlPath = uiSchemaControlPath?.replace('/', '');
+    const newUiSchema = new UISchemaBuilder()
+      .from(uiSchema)
+      .addElement(element.uiSchema, keyOfElementBefore, position)
+      .getSchema();
 
-    const newUISchema = addPropertyByPath(
-      uiSchema,
-      uiSchemaControlPath!,
-      element?.uiSchema,
-      keyOfElementBefore,
-      position
-    );
+    setUISchema(newUiSchema);
 
-    setUISchema(newUISchema);
     if (element.dataSchema) {
       let dataSchemaControlPath = findPath(
         dataSchema,
         'key',
         keyOfElementBefore
-      );
-      dataSchemaControlPath = dataSchemaControlPath?.replace(
-        `/${keyOfElementBefore}/key`,
-        ''
-      );
-      dataSchemaControlPath = dataSchemaControlPath?.replace('/', '');
+      )?.replace(`/${keyOfElementBefore}`, '');
 
       const newDataSchema = addPropertyByPath(
         dataSchema,
@@ -216,49 +183,45 @@ export default function DesignerContextProvider({
     element: FormElementInstance,
     layoutKey: string
   ) => {
-    const parentLayout = findUiElementByKey(layoutKey, uiSchema!);
+    const uiBuilder = new UISchemaBuilder().from(uiSchema);
+    const parentLayout = uiBuilder.getElement(layoutKey);
     if (
       parentLayout?.type === 'MultistepLayout' &&
       parentLayout.elements?.length
     ) {
-      //@ts-ignore
-      layoutKey = parentLayout.elements[parentLayout.activeStep - 1].key;
+      const activeStep = parentLayout.activeStep || 1;
+      layoutKey = parentLayout.elements[activeStep - 1].key;
     }
-    const newUISchema = UpdateUiElementByKey(layoutKey, uiSchema!, element);
+    const newUISchema = uiBuilder
+      .appendElement(layoutKey, element.uiSchema)
+      .getSchema();
 
     setUISchema(newUISchema);
-    if (element.type === 'Input' && element.dataSchema) {
-      setDataSchema((prev) => {
-        return {
-          ...prev,
-          properties: {
-            ...prev.properties,
-            ...element.dataSchema!,
-          },
-        };
-      });
-    }
     if (element.type === 'Input') {
       setElementsMap(
         new Map(elementsMap.set(element.key, element.uiSchema.name))
       );
+      if (element.dataSchema) {
+        setDataSchema((prev) => {
+          return {
+            ...prev,
+            properties: {
+              ...prev.properties,
+              ...element.dataSchema!,
+            },
+          };
+        });
+      }
     }
   };
 
   const updateElementSchemas = (element: FormElementInstance) => {
-    let uiSchemaLayoutPath = findPath(uiSchema, 'key', element.key);
-    uiSchemaLayoutPath = uiSchemaLayoutPath?.replace('/key', '');
-    uiSchemaLayoutPath = uiSchemaLayoutPath?.replace('/', '');
+    const newUISchema = new UISchemaBuilder()
+      .from(uiSchema)
+      .updateElement(element.key, element.uiSchema)
+      .getSchema();
 
     let dataSchemaControlPath = findPath(dataSchema, 'key', element.key);
-    dataSchemaControlPath = dataSchemaControlPath?.replace('/key', '');
-    dataSchemaControlPath = dataSchemaControlPath?.replace('/', '');
-
-    const newUISchema = updateElementProperties(
-      uiSchema,
-      uiSchemaLayoutPath!,
-      element.uiSchema
-    );
     const newDataSchema = updateElementProperties(
       dataSchema,
       dataSchemaControlPath!,

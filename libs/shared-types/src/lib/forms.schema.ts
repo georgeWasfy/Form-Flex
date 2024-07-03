@@ -114,4 +114,5 @@ export type UISchema = {
   placeholder?: string;
   elements?: UISchema[];
   rule?: Rule;
+  activeStep?: number;
 };

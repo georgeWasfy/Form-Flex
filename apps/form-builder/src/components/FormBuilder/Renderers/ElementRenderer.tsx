@@ -4,7 +4,7 @@ import {
   SchemaProperty,
   ControlEffect,
 } from '@engine/shared-types';
-import { findPropertyFromScope } from '../SchemaBuilder/helpers';
+import { getElementDataSchemaByScope } from '../SchemaBuilder/helpers';
 import useDesigner from '../Hooks/useDesigner';
 import { EffectMap } from '../types';
 import {
@@ -72,6 +72,7 @@ export const ElementRenderer = ({
           case 'StepLayout':
             return el?.elements?.length ? (
               <ElementRenderer
+                key = {el.key}
                 uischema={el.elements}
                 dataSchema={dataSchema}
                 isDesigner={isDesigner}
@@ -95,7 +96,7 @@ export const ElementRenderer = ({
                 EffectMap.get(el.rule.effect!) as ControlEffect
               );
             }
-            const elementSchemaProperties = findPropertyFromScope(
+            const elementSchemaProperties = getElementDataSchemaByScope(
               scope || '',
               dataSchema as DataSchema
             );
