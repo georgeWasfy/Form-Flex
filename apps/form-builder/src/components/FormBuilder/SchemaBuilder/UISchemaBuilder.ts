@@ -1,6 +1,5 @@
 import { UISchema } from '@engine/shared-types';
 import { addPropertyByPath, findPath, removePropertyByPath, updateElementProperties } from './helpers';
-import { FormElementInstance } from '../types';
 
 export class UISchemaBuilder {
   private UiSchema: UISchema | undefined;

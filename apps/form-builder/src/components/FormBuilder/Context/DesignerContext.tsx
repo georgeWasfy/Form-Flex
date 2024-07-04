@@ -1,12 +1,6 @@
 import { createContext, ReactNode, useState } from 'react';
 import { FormElementInstance } from '../types';
 import {
-  addPropertyByPath,
-  findPath,
-  removePropertyByPath,
-  updateElementProperties,
-} from '../SchemaBuilder/helpers';
-import {
   ControlEffect,
   DataSchema,
   Rule,
@@ -14,6 +8,7 @@ import {
   UISchema,
 } from '@engine/shared-types';
 import { UISchemaBuilder } from '../SchemaBuilder/UISchemaBuilder';
+import { DataSchemaBuilder } from '../SchemaBuilder/DataSchemaBuilder';
 
 type DesignerContextType = {
   dataSchema: DataSchema;
@@ -81,11 +76,11 @@ export default function DesignerContextProvider({
       prev?.delete(key);
       return new Map(prev);
     });
-    let dataSchemaControlPath = findPath(dataSchema, 'key', key);
-    const updatedDataSchema = removePropertyByPath(
-      dataSchema,
-      dataSchemaControlPath!
-    );
+    const updatedDataSchema = new DataSchemaBuilder()
+      .from(dataSchema)
+      .removeElement(key)
+      .getSchema();
+
     const updatedUISchema = new UISchemaBuilder()
       .from(uiSchema)
       .removeElement(key)
@@ -156,19 +151,10 @@ export default function DesignerContextProvider({
     setUISchema(newUiSchema);
 
     if (element.dataSchema) {
-      let dataSchemaControlPath = findPath(
-        dataSchema,
-        'key',
-        keyOfElementBefore
-      )?.replace(`/${keyOfElementBefore}`, '');
-
-      const newDataSchema = addPropertyByPath(
-        dataSchema,
-        dataSchemaControlPath!,
-        element?.dataSchema!,
-        keyOfElementBefore,
-        position
-      );
+      const newDataSchema = new DataSchemaBuilder()
+        .from(dataSchema)
+        .addElement(element.dataSchema, keyOfElementBefore, position)
+        .getSchema();
 
       setDataSchema(newDataSchema);
     }
@@ -221,17 +207,16 @@ export default function DesignerContextProvider({
       .updateElement(element.key, element.uiSchema)
       .getSchema();
 
-    let dataSchemaControlPath = findPath(dataSchema, 'key', element.key);
-    const newDataSchema = updateElementProperties(
-      dataSchema,
-      dataSchemaControlPath!,
-      element.dataSchema
-    );
-
     setUISchema(newUISchema);
-    setDataSchema(newDataSchema);
     setSelectedElement(element);
+
     if (element.type === 'Input') {
+      const newDataSchema = new DataSchemaBuilder()
+        .from(dataSchema)
+        .updateElement(element.key, element.dataSchema!)
+        .getSchema();
+      setDataSchema(newDataSchema);
+
       setElementsMap(
         new Map(elementsMap.set(element.key, element.uiSchema.name))
       );
