@@ -62,13 +62,13 @@ function FormComponent({
 }) {
   return (
     <Accordion
-      className={`flex tems-start gap-4 justify-between flex-1`}
+      className={`flex tems-start gap-4 w-full justify-between flex-1`}
       type="single"
       collapsible
     >
       <AccordionItem value="item-1">
-        <AccordionTrigger>{elementInstance.uiSchema.label}</AccordionTrigger>
-        <AccordionContent>{children}</AccordionContent>
+        <AccordionTrigger className='w-full'>{elementInstance.uiSchema.label}</AccordionTrigger>
+        <AccordionContent className='w-full'>{children}</AccordionContent>
       </AccordionItem>
     </Accordion>
   );

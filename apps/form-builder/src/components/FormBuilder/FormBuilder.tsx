@@ -24,7 +24,7 @@ const FormBuilder = () => {
   const sensors = useSensors(mouseSensor, touchSensor);
   return (
     <>
-      <div className="float-right m-2">
+      <div className="float-right m-2 ">
         <FormPreview
           trigger={
             <Button
@@ -39,7 +39,7 @@ const FormBuilder = () => {
       </div>
       <DndContext sensors={sensors}>
         <div className="flex justify-evenly border-b-2 items-center"></div>
-        <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-full  bg-[url(/plus.svg)]">
+        <div className=" w-full relative overflow-y-auto h-full  bg-[url(/plus.svg)]">
           <Designer />
         </div>
         <DragOverlayWrapper />

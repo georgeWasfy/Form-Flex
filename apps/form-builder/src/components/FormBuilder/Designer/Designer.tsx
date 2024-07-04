@@ -64,9 +64,9 @@ const Designer = () => {
     },
   });
   return (
-    <div className="flex w-full h-full ">
+    <div className="grid grid-cols-12 gap-4 ">
       <div
-        className="p-4 w-full"
+        className="p-4 col-span-9"
         onClick={() => {
           if (selectedElement) setSelectedElement(null);
         }}

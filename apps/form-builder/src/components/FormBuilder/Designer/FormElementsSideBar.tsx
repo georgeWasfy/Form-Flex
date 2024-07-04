@@ -5,28 +5,27 @@ import { SidebarBtnElement } from './SidebarBtnElement';
 const FormElementsSideBar = () => {
   return (
     <div>
-      <Label>Form Elements</Label>
-      <div className="flex flex-row gap-3 mb-2">
+      <Label className='underline'>Form Elements</Label>
+      <div className="flex flex-row justify-center gap-3 mb-2">
         <SidebarBtnElement formElement={FormElements.TextField} />
         <SidebarBtnElement formElement={FormElements.NumberField} />
+        <SidebarBtnElement formElement={FormElements.TextAreaField} />
+
       </div>
-      <div className="flex flex-row gap-3 mb-2">
+      <div className="flex flex-row justify-center gap-3 mb-2">
         <SidebarBtnElement formElement={FormElements.DateField} />
         <SidebarBtnElement formElement={FormElements.DateRangeField} />
       </div>
-      <div className="flex flex-row gap-3 mb-2">
+      <div className="flex flex-row justify-center gap-3 mb-2">
         <SidebarBtnElement formElement={FormElements.SelectField} />
         <SidebarBtnElement formElement={FormElements.MultiSelectField} />
       </div>
-      <div className="flex flex-row gap-3 mb-2">
-        <SidebarBtnElement formElement={FormElements.TextAreaField} />
-      </div>
-      <Label>Layouts</Label>
-      <div className="flex flex-row gap-3">
+      <Label className='underline'>Layouts</Label>
+      <div className="flex flex-row justify-center gap-3">
         <SidebarBtnElement formElement={FormElements.HorizontalLayout} />
         <SidebarBtnElement formElement={FormElements.VerticalLayout} />
       </div>
-      <div className="flex flex-row gap-3">
+      <div className="flex flex-row justify-center gap-3">
         <SidebarBtnElement formElement={FormElements.GroupAccordionLayout} />
         <SidebarBtnElement formElement={FormElements.MultistepLayout} />
       </div>

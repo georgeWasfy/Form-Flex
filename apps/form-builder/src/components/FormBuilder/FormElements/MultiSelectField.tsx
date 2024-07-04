@@ -7,16 +7,14 @@ import {
 } from '@engine/design-system';
 import { UISchema, SchemaProperty } from '@engine/shared-types';
 import {
-  ArrowDownIcon,
+  DoubleArrowDownIcon,
   MinusCircledIcon,
   PlusCircledIcon,
 } from '@radix-ui/react-icons';
 import {
   Controller,
-  FieldValues,
   useFieldArray,
   useForm,
-  UseFormReturn,
 } from 'react-hook-form';
 import useDesigner from '../Hooks/useDesigner';
 import { FormElement, FormElementInstance } from '../types';
@@ -60,8 +58,8 @@ export const MultiSelectFieldFormElement: FormElement = {
     },
   }),
   designerBtnElement: {
-    icon: ArrowDownIcon,
-    label: 'Multi-Dropdown Field',
+    icon: DoubleArrowDownIcon,
+    label: 'Multiselect Field',
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,

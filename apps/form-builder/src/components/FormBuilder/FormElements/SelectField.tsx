@@ -50,7 +50,7 @@ export const SelectFieldFormElement: FormElement = {
   }),
   designerBtnElement: {
     icon: ArrowDownIcon,
-    label: 'Dropdown Field',
+    label: 'Select Field',
   },
   designerComponent: DesignerComponent,
   formComponent: FormComponent,
