@@ -37,7 +37,6 @@ export const MultiSelectFieldFormElement: FormElement = {
             { const: 'option1', title: 'Option1' },
             { const: 'option2', title: 'Option2' },
             { const: 'option3', title: 'Option3' },
-            { const: 'option4', title: 'Option4' },
           ],
         },
         minItems: 3,
@@ -343,7 +342,7 @@ function PropertiesComponent({
           render={({ field, fieldState }) => (
             <>
               <Switch
-                className=""
+                className="bg-white"
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />

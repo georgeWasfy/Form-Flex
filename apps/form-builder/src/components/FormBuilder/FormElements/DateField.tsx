@@ -239,7 +239,7 @@ function PropertiesComponent({
           render={({ field, fieldState }) => (
             <>
               <Switch
-                className=""
+                className="bg-white"
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />

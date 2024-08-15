@@ -327,7 +327,7 @@ function PropertiesComponent({
           render={({ field, fieldState }) => (
             <>
               <Switch
-                className=""
+                className="bg-white"
                 checked={field.value}
                 onCheckedChange={field.onChange}
               />
@@ -349,10 +349,10 @@ function PropertiesComponent({
                 value={field.value}
                 onValueChange={(value) => field.onChange(value)}
               >
-                <SelectTrigger className="h-8 w-full">
-                  <SelectValue placeholder={field.value} />
+                <SelectTrigger className="h-8 w-full bg-white">
+                  <SelectValue placeholder={'select effect'} />
                 </SelectTrigger>
-                <SelectContent className="bg-base-100" side="top">
+                <SelectContent className="bg-white" side="top">
                   {RuleEffects.map((effect) => (
                     <SelectItem key={effect} value={`${effect}`}>
                       {effect}
@@ -375,10 +375,10 @@ function PropertiesComponent({
           render={({ field, fieldState }) => (
             <>
               <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="h-8 w-full">
+                <SelectTrigger className="h-8 w-full bg-white">
                   <SelectValue placeholder={'select element'} />
                 </SelectTrigger>
-                <SelectContent className="bg-base-100" side="top">
+                <SelectContent className="bg-white" side="top">
                   {Array.from(elementsMap.keys()).map((elementKey) => (
                     <SelectItem key={elementKey} value={`${elementKey}`}>
                       {elementsMap.get(elementKey)}
