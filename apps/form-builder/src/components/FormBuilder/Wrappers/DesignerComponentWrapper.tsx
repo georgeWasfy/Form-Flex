@@ -59,7 +59,7 @@ const DesignerComponentWrapper = ({
       {...draggable.listeners}
       {...draggable.attributes}
       className={cn(
-        'relative flex flex-col w-full  hover:cursor-pointer rounded-md ring-1 ring-primary ring-inset',
+        'relative flex flex-col w-full  hover:cursor-pointer rounded-md bg-gray-300 ring-1 ring-primary-700 ring-inset',
         element.type === 'Layout' ? 'h-full' : 'min-h-[120px]'
       )}
       onMouseEnter={() => setMouseIsOver(true)}
@@ -89,7 +89,7 @@ const DesignerComponentWrapper = ({
         <>
           <div className="absolute right-0 h-full">
             <Button
-              className="flex justify-center h-full border rounded-md rounded-l-none bg-error"
+              className="flex justify-center h-full border rounded-md rounded-l-none bg-code-red/50"
               variant={'outline'}
               onClick={(e) => {
                 e.stopPropagation();
@@ -106,10 +106,10 @@ const DesignerComponentWrapper = ({
         </>
       )}
       {top.isOver && (
-        <div className="absolute top-0 w-full rounded-md h-[7px] bg-accent rounded-b-none" />
+        <div className="absolute top-0 w-full rounded-md h-[7px] bg-gray-600 rounded-b-none" />
       )}
       {left.isOver && (
-        <div className="absolute left-0 h-full rounded-md w-[7px] bg-accent  " />
+        <div className="absolute left-0 h-full rounded-md w-[7px] bg-gray-600  " />
       )}
       <div
         className={cn(
@@ -121,10 +121,10 @@ const DesignerComponentWrapper = ({
         <DesignerElement elementInstance={element} />
       </div>
       {bottom.isOver && (
-        <div className="absolute bottom-0 w-full rounded-md h-[7px] bg-accent rounded-t-none" />
+        <div className="absolute bottom-0 w-full rounded-md h-[7px] bg-gray-600 rounded-t-none" />
       )}
       {right.isOver && (
-        <div className="absolute right-0 h-full rounded-md w-[7px] bg-accent  " />
+        <div className="absolute right-0 h-full rounded-md w-[7px] bg-gray-600  " />
       )}
     </div>
   );

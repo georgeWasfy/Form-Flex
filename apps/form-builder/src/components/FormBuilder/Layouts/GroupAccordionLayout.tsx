@@ -41,7 +41,7 @@ function DesignerComponent({
 }) {
   return (
     <Accordion
-      className={`flex flex-row min-h-[100px] w-full items-start gap-4 justify-between flex-1 border-primary border-4 	 `}
+      className={`flex flex-row min-h-[100px] w-full items-start gap-4 justify-between flex-1 border-gray-400 border-4 	 `}
       type="single"
       defaultValue="item-1"
     >

@@ -83,6 +83,8 @@ function DesignerComponent({
         disabled
         placeholder={elementInstance.uiSchema.placeholder}
         rows={elementInstance.uiSchema.rows}
+        className='bg-gray-600'
+
       />
       {elementInstance.dataSchema &&
         elementInstance.dataSchema[elementName]?.description && (

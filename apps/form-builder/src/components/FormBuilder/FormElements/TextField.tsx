@@ -82,6 +82,7 @@ function DesignerComponent({
         readOnly
         disabled
         placeholder={elementInstance.uiSchema.placeholder}
+        className='bg-gray-600'
       />
       {elementInstance.dataSchema &&
         elementInstance.dataSchema[elementName]?.description && (

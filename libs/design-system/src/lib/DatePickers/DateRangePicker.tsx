@@ -11,24 +11,26 @@ import { forwardRef } from 'react';
 type Props = Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> & {
   value?: { from: string; to: string };
   onChange?: (d?: DateRange) => void;
+  disabled?: boolean;
 };
 
 export const DateRangePicker = forwardRef(
-  ({ className, value, onChange }: Props, ref) => {
+  ({ className, value, onChange, disabled }: Props, ref) => {
     const [date, setDate] = React.useState<DateRange | undefined>({
       from: new Date(2022, 0, 20),
       to: addDays(new Date(2022, 0, 20), 20),
     });
     return (
-      <div className={cn('grid gap-2', className)}>
+      <div className={cn('grid gap-2')}>
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger asChild className={cn('disabled:opacity-50',className)} disabled={disabled}>
             <Button
               id="date"
               variant={'outline'}
+              disabled={disabled}
               className={cn(
-                'justify-start text-left font-normal hover:bg-secondary',
-                !date && 'text-muted-foreground'
+                'justify-start text-left text-sm hover:bg-secondary',
+                !date && ''
               )}
             >
               <CalendarIcon className="mr-2 h-4 w-4" />

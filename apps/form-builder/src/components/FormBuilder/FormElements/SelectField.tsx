@@ -71,7 +71,7 @@ function DesignerComponent({
           {elementInstance.uiSchema.required && '*'}
         </span>
       </Label>
-      <FormSelect placeholder={elementInstance.uiSchema.placeholder} />
+      <FormSelect isDisabled placeholder={elementInstance.uiSchema.placeholder} className='bg-gray-600' />
       {elementInstance.dataSchema &&
         elementInstance.dataSchema[elementKey]?.description && (
           <p className="text-base-100 text-[0.8rem]">

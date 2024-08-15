@@ -74,12 +74,12 @@ const Designer = () => {
         <div
           ref={dropZone.setNodeRef}
           className={cn(
-            'bg-background max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow  justify-start flex-1 overflow-y-auto',
-            dropZone.isOver && 'ring-2 ring-primary'
+            'bg-gray-200 max-w-[920px] h-full m-auto rounded-xl flex flex-col flex-grow  justify-start flex-1 overflow-y-auto',
+            dropZone.isOver && 'ring-2 ring-primary-800'
           )}
         >
           {!dropZone.isOver && !uiSchema && (
-            <p className="text-3xl mx-80 text-muted-foreground flex flex-grow items-center font-bold">
+            <p className="text-3xl mx-80 flex flex-grow items-center font-bold">
               Drop components
             </p>
           )}

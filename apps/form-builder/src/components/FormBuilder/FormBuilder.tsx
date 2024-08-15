@@ -30,7 +30,7 @@ const FormBuilder = () => {
             <Button
               type="submit"
               variant={'outline'}
-              className="shadow-lg border-secondary hover:bg-secondary"
+              className="shadow-lg border-gray-400 hover:bg-gray-400"
             >
               Preview Form
             </Button>

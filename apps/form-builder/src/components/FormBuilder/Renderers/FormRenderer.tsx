@@ -72,7 +72,7 @@ const FormRenderer = ({
               type="submit"
               variant="default"
               size="default"
-              className="ml-auto hidden h-8 lg:flex px-5 py-3"
+              className="ml-auto hidden h-8 lg:flex px-5 py-3 bg-gray-400 text-white"
             >
               Submit
             </Button>

@@ -12,9 +12,13 @@ export const DatePicker = forwardRef(
     {
       value,
       onChange,
+      className,
+      disabled,
     }: {
       value?: string;
       onChange?: (d?: Date) => void;
+      className?: string;
+      disabled?: boolean;
     },
     ref
   ) => {
@@ -24,10 +28,12 @@ export const DatePicker = forwardRef(
       <Popover>
         <PopoverTrigger asChild>
           <Button
+            disabled={disabled}
             variant={'outline'}
             className={cn(
-              ' justify-start text-left font-normal hover:bg-secondary',
-              !date && 'text-muted-foreground'
+              ' justify-start text-left font-normal hover:bg-secondary disabled:opacity-50',
+              !date && '',
+              className
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

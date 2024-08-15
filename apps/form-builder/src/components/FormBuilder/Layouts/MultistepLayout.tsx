@@ -59,7 +59,7 @@ function DesignerComponent({
   const prevFormStep = () => setFormStep((currentStep) => currentStep - 1);
 
   return (
-    <div className="grid grid-cols-6 divide-y divide-none min-w-[100px] min-h-[150px] border-secondary border-4">
+    <div className="grid grid-cols-6 divide-y divide-none min-w-[100px] min-h-[150px] border-gray-400 border-4">
       <div className="col-start-1 col-end-7">
         <h4 className="font-medium leading-tight text-2xl mt-0 mb-2 text-slate-600">
           <Stepper steps={stepsLabels} activeTabIndex={formStep} />
