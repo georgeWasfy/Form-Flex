@@ -10,7 +10,10 @@ const Input = React.forwardRef<HTMLInputElement, InputFieldProps>(
         {...props}
         dir="auto"
         id={id}
-        onChange={onChange}
+        onChange={(e) => {
+          //@ts-ignore
+          return onChange&&type === 'number' ? onChange({...e, target: {...e.target, value: +e.target.value}}) : onChange(e)
+        }}
         title={props.disabled ? 'Readonly. Cannot edit.' : props.title}
         placeholder={placeholder}
         value={value}
