@@ -148,13 +148,6 @@ function PropertiesComponent({
   elementInstance: FormElementInstance;
 }) {
   const { updateElementSchemas, elementsMap, dataSchema } = useDesigner();
-  const form = useForm<any>({
-    defaultValues: {
-      dataSchema: elementInstance.dataSchema,
-      uiSchema: elementInstance.uiSchema,
-      formRules: [],
-    },
-  });
   function updateSchemas(values: {
     uiSchema: UISchema;
     dataSchema: SchemaProperty;

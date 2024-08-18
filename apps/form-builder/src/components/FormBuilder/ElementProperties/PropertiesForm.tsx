@@ -111,7 +111,10 @@ const PropertiesForm = ({
       ),
       MultiSelectField: undefined,
       SelectField: undefined,
-      TextAreaField: undefined,
+      TextAreaField: generateMinMaxFields(
+        { max: 'Max Length', min: 'Min Length' },
+        { max: 'maxLength', min: 'minLength' }
+      ),
       DateRangeField: undefined,
       DateField: undefined,
     }[type];
@@ -251,13 +254,11 @@ const PropertiesForm = ({
                       value={field.value}
                       placeholder="Default Value"
                       className="w-3/4"
-                      onChange={(e) =>
-                        form.setValue(
-                          `dataSchema[${elementName}].default`,
-                          parseInt(e.target.value)
-                        )
+                      type={
+                        elementInstance.dataSchema
+                          ? elementInstance.dataSchema[elementName].input
+                          : 'text'
                       }
-                      type={`dataSchema[${elementName}].input`}
                     />
                     {fieldState.error?.message && (
                       <Label variant={'error'}>
