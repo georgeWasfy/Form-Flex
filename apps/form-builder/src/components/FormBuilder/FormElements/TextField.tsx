@@ -1,31 +1,13 @@
-import {
-  Input,
-  Label,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Switch,
-} from '@engine/design-system';
+import { Input, Label } from '@engine/design-system';
 import { UISchema, SchemaProperty, ControlEffect } from '@engine/shared-types';
 import { TextIcon } from '@radix-ui/react-icons';
-import {
-  Controller,
-  FieldValues,
-  useForm,
-  UseFormReturn,
-} from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import RulesForm from '../Designer/SidebarRulesForm';
 import { buildConditionObject, findPath } from '../SchemaBuilder/helpers';
 import useDesigner from '../Hooks/useDesigner';
-import {
-  FormElement,
-  FormElementInstance,
-  Operator,
-  RuleEffects,
-} from '../types';
+import { FormElement, FormElementInstance, Operator } from '../types';
 import useCustomeForm from '../Hooks/useForm';
+import PropertiesForm from '../ElementProperties/PropertiesForm';
 
 export const TextFieldFormElement: FormElement = {
   type: 'TextField',
@@ -38,16 +20,24 @@ export const TextFieldFormElement: FormElement = {
         key,
         type: 'string',
         pattern: '',
+        default: '',
+        prefix: '',
+        suffix: '',
         description: 'This is Element Description',
         maxLength: 255,
         minLength: 1,
-        errorMessage: { type: 'foo must be an Integer' },
+        errorMessage: {
+          type: 'Custom: Must have characters',
+          minLength: 'Custom: This field is required',
+          maxLength: 'Custom: This field is has max of 255 characters',
+          pattern: 'Custom: The field does not comply with specified pattern ',
+        },
       },
     },
     uiSchema: {
       key,
       type: 'Control',
-      required: true,
+      required: false,
       name: key,
       variant: 'Text',
       label: '',
@@ -78,12 +68,18 @@ function DesignerComponent({
           {elementInstance.uiSchema.required && '*'}
         </span>
       </Label>
-      <Input
-        readOnly
-        disabled
-        placeholder={elementInstance.uiSchema.placeholder}
-        className='bg-gray-600'
-      />
+      <span className='flex items-center'>
+        {elementInstance.dataSchema &&
+          elementInstance.dataSchema[elementName].prefix}
+        <Input
+          readOnly
+          disabled
+          placeholder={elementInstance.uiSchema.placeholder}
+          className="bg-gray-600"
+        />
+        {elementInstance.dataSchema &&
+          elementInstance.dataSchema[elementName].suffix}
+      </span>
       {elementInstance.dataSchema &&
         elementInstance.dataSchema[elementName]?.description && (
           <p className="text-base-100 text-[0.8rem]">
@@ -149,14 +145,7 @@ function PropertiesComponent({
 }: {
   elementInstance: FormElementInstance;
 }) {
-  const { updateElementSchemas, elementsMap, dataSchema } = useDesigner();
-  const form = useForm<any>({
-    defaultValues: {
-      dataSchema: elementInstance.dataSchema,
-      uiSchema: elementInstance.uiSchema,
-      formRules: [],
-    },
-  });
+  const { updateElementSchemas, dataSchema } = useDesigner();
 
   function updateSchemas(values: {
     uiSchema: UISchema;
@@ -209,167 +198,6 @@ function PropertiesComponent({
     });
   }
   return (
-    <form onSubmit={form.handleSubmit(updateSchemas)} className="space-y-3">
-      <div className="flex flex-col">
-        <Label className="mb-2">Label</Label>
-        <Controller
-          name={`uiSchema.label`}
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Input
-                {...field}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') e.currentTarget.blur();
-                }}
-                value={field.value}
-                placeholder="Label"
-                className="w-full border-base-100"
-              />
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <Label className="mb-2">name</Label>
-        <Controller
-          name="uiSchema.name"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Input
-                {...field}
-                value={field.value}
-                placeholder="Name"
-                className="w-full border-base-100"
-              />
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <Label className="mb-2">Description</Label>
-        <Controller
-          name={`dataSchema[${elementInstance.uiSchema.name}].description`}
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Input
-                {...field}
-                value={field.value}
-                placeholder="Description"
-                className="w-full border-base-100"
-              />
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-      <div className="flex flex-col">
-        <Label className="mb-2">placeholder</Label>
-        <Controller
-          name={`uiSchema.placeholder`}
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Input
-                {...field}
-                value={field.value}
-                placeholder="Placeholder"
-                className="w-full border-base-100"
-              />
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-      <div className="flex items-center justify-between rounded-lg border p-3 shadow-sm">
-        <Label className="mb-2">Required</Label>
-        <Controller
-          name={`uiSchema.required`}
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Switch
-                className="bg-white"
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-      <div className="flex flex-col">
-        <Label className="mb-2">Rule Effect</Label>
-        <Controller
-          name={`uiSchema.rule.effect`}
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Select
-                value={field.value}
-                onValueChange={(value) => field.onChange(value)}
-              >
-                <SelectTrigger className="h-8 w-full bg-white">
-                  <SelectValue placeholder={'select effect'} />
-                </SelectTrigger>
-                <SelectContent className="bg-white" side="top">
-                  {RuleEffects.map((effect) => (
-                    <SelectItem className='hover:bg-gray-300' key={effect} value={`${effect}`}>
-                      {effect}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-      <div className="flex flex-col">
-        <Label className="mb-2">Rule Element</Label>
-        <Controller
-          name={`uiSchema.rule.condition.key`}
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <>
-              <Select value={field.value} onValueChange={field.onChange}>
-                <SelectTrigger className="h-8 w-full bg-white">
-                  <SelectValue placeholder={'select element'} />
-                </SelectTrigger>
-                <SelectContent className="bg-white" side="top">
-                  {Array.from(elementsMap.keys()).map((elementKey) => (
-                    <SelectItem className='hover:bg-gray-300' key={elementKey} value={`${elementKey}`}>
-                      {elementsMap.get(elementKey)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {fieldState.error?.message && (
-                <Label variant={'error'}>{fieldState.error?.message}</Label>
-              )}
-            </>
-          )}
-        />
-      </div>
-      <RulesForm form={form} />
-    </form>
+    <PropertiesForm elementInstance={elementInstance} update={updateSchemas} />
   );
 }

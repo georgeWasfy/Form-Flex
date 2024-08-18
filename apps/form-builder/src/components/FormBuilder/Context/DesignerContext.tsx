@@ -53,6 +53,7 @@ export default function DesignerContextProvider({
     description: 'New Form DataSchema',
     type: 'object' as SchemaPrimitiveType,
     properties: {},
+    required: [],
   };
   const [dataSchema, setDataSchema] = useState<DataSchema>(baseDataSchema);
   const [uiSchema, setUISchema] = useState<UISchema | undefined>();
@@ -211,8 +212,21 @@ export default function DesignerContextProvider({
     setSelectedElement(element);
 
     if (element.type === 'Input') {
+      const localSchema = Object.assign({}, dataSchema);
+      if (element.uiSchema.required) {
+        localSchema.required?.splice(
+          localSchema.required.indexOf(element.uiSchema.name),
+          1
+        );
+        localSchema.required?.push(element.uiSchema.name);
+      } else {
+        localSchema.required?.splice(
+          localSchema.required.indexOf(element.uiSchema.name),
+          1
+        );
+      }
       const newDataSchema = new DataSchemaBuilder()
-        .from(dataSchema)
+        .from(localSchema)
         .updateElement(element.key, element.dataSchema!)
         .getSchema();
       setDataSchema(newDataSchema);

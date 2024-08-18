@@ -61,6 +61,9 @@ export type SchemaPropertyBody = {
   description?: string;
   properties?: SchemaProperty;
   items?: SchemaPropertyBody;
+  default?: number | string | null | object;
+  prefix?: string;
+  suffix?: string;
   minItems?: number;
   maxItems?: number;
   uniqueItems?: boolean;

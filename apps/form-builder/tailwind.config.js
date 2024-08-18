@@ -70,6 +70,7 @@ module.exports = {
           orange: '#ffb86c',
           red: '#BE3030',
         },
+        error: 'hsl(var(--error) / <alpha-value>)',
       },
       // colors: {
       //   text: 'hsl(var(--text) / <alpha-value>)',
