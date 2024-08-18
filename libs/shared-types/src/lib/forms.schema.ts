@@ -55,34 +55,54 @@ export type SchemaPrimitiveType =
   | 'number'
   | 'boolean'
   | 'null';
-
-export type SchemaPropertyBody = {
-  type: SchemaPrimitiveType | SchemaPrimitiveType[];
-  description?: string;
-  properties?: SchemaProperty;
-  items?: SchemaPropertyBody;
-  default?: number | string | null | object;
-  prefix?: string;
-  suffix?: string;
-  minItems?: number;
-  maxItems?: number;
-  uniqueItems?: boolean;
-  required?: string[];
-  enum?: SchemaPrimitiveType[];
-  multipleOf?: number;
-  maximum?: number;
-  exclusiveMaximum?: number;
-  minimum?: number;
-  exclusiveMinimum?: number;
-  maxLength?: number;
-  minLenght?: number;
-  pattern?: string;
-  dependentRequired?: {
-    [key: string]: string[];
+  export type InputType =
+    | 'text'
+    | 'password'
+    | 'email'
+    | 'number'
+    | 'tel'
+    | 'url'
+    | 'search'
+    | 'date'
+    | 'time'
+    | 'datetime-local'
+    | 'month'
+    | 'week'
+    | 'color'
+    | 'file'
+    | 'checkbox'
+    | 'radio'
+    | 'hidden'
+    | 'range'
+    | 'select';
+  export type SchemaPropertyBody = {
+    type: SchemaPrimitiveType | SchemaPrimitiveType[];
+    description?: string;
+    properties?: SchemaProperty;
+    items?: SchemaPropertyBody;
+    input?: InputType;
+    default?: number | string | null | object;
+    prefix?: string;
+    suffix?: string;
+    minItems?: number;
+    maxItems?: number;
+    uniqueItems?: boolean;
+    required?: string[];
+    enum?: SchemaPrimitiveType[];
+    multipleOf?: number;
+    maximum?: number;
+    exclusiveMaximum?: number;
+    minimum?: number;
+    exclusiveMinimum?: number;
+    maxLength?: number;
+    minLenght?: number;
+    pattern?: string;
+    dependentRequired?: {
+      [key: string]: string[];
+    };
+    oneOf?: { const: string; title: string }[];
+    anyOf?: { const: string; title: string }[];
   };
-  oneOf?: { const: string; title: string }[];
-  anyOf?: { const: string; title: string }[];
-};
 
 export type SchemaProperty = {
   [key: string]: SchemaPropertyBody;

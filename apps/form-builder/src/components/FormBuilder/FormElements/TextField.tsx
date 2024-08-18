@@ -19,6 +19,7 @@ export const TextFieldFormElement: FormElement = {
       [key]: {
         key,
         type: 'string',
+        input: 'text',
         pattern: '',
         default: '',
         prefix: '',

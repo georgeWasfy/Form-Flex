@@ -14,7 +14,7 @@ import {
   Button,
 } from '@engine/design-system';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { FormElementInstance, RuleEffects } from '../types';
+import { ElementsType, FormElementInstance, RuleEffects } from '../types';
 import useDesigner from '../Hooks/useDesigner';
 import { useState } from 'react';
 
@@ -25,6 +25,97 @@ const PropertiesForm = ({
   elementInstance: FormElementInstance;
   update: SubmitHandler<any>;
 }) => {
+  const generateMinMaxFields = (
+    label: { max: string; min: string },
+    dataSchemaProperty: { max: string; min: string }
+  ) => {
+    return (
+      <>
+        <div className="flex items-center justify-between mb-4">
+          <Label className="mb-2">{label.min}</Label>
+          <Controller
+            name={`dataSchema[${elementName}].${dataSchemaProperty.min}`}
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <>
+                <Input
+                  {...field}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') e.currentTarget.blur();
+                  }}
+                  onChange={(e) =>
+                    form.setValue(
+                      `dataSchema[${elementName}].${dataSchemaProperty.min}`,
+                      parseInt(e.target.value)
+                    )
+                  }
+                  value={parseInt(field.value)}
+                  placeholder="Min"
+                  className="w-3/4"
+                  type="number"
+                />
+                {fieldState.error?.message && (
+                  <Label variant={'error'}>{fieldState.error?.message}</Label>
+                )}
+              </>
+            )}
+          />
+        </div>
+        <div className="flex items-center justify-between mb-4">
+          <Label className="mb-2">{label.max}</Label>
+          <Controller
+            name={`dataSchema[${elementName}].${dataSchemaProperty.max}`}
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <>
+                <Input
+                  {...field}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') e.currentTarget.blur();
+                  }}
+                  onChange={(e) =>
+                    form.setValue(
+                      `dataSchema[${elementName}].${dataSchemaProperty.max}`,
+                      parseInt(e.target.value)
+                    )
+                  }
+                  value={parseInt(field.value)}
+                  placeholder="Max"
+                  className="w-3/4"
+                  type="number"
+                />
+                {fieldState.error?.message && (
+                  <Label variant={'error'}>{fieldState.error?.message}</Label>
+                )}
+              </>
+            )}
+          />
+        </div>
+      </>
+    );
+  };
+  const getMinMaxFields = (type: ElementsType) => {
+    return {
+      TextField: generateMinMaxFields(
+        { max: 'Max Length', min: 'Min Length' },
+        { max: 'maxLength', min: 'minLength' }
+      ),
+      HorizontalLayout: undefined,
+      VerticalLayout: undefined,
+      GroupAccordionLayout: undefined,
+      MultistepLayout: undefined,
+      StepLayout: undefined,
+      NumberField: generateMinMaxFields(
+        { max: 'Max Value', min: 'Min Value' },
+        { max: 'maximum', min: 'minimum' }
+      ),
+      MultiSelectField: undefined,
+      SelectField: undefined,
+      TextAreaField: undefined,
+      DateRangeField: undefined,
+      DateField: undefined,
+    }[type];
+  };
   const { elementsMap } = useDesigner();
   const [elementName, setElementName] = useState(elementInstance.uiSchema.name);
   const form = useForm<any>({
@@ -160,6 +251,13 @@ const PropertiesForm = ({
                       value={field.value}
                       placeholder="Default Value"
                       className="w-3/4"
+                      onChange={(e) =>
+                        form.setValue(
+                          `dataSchema[${elementName}].default`,
+                          parseInt(e.target.value)
+                        )
+                      }
+                      type={`dataSchema[${elementName}].input`}
                     />
                     {fieldState.error?.message && (
                       <Label variant={'error'}>
@@ -261,70 +359,7 @@ const PropertiesForm = ({
                 )}
               />
             </div>
-            <div className="flex items-center justify-between mb-4">
-              <Label className="mb-2">Min Length</Label>
-              <Controller
-                name={`dataSchema[${elementName}].minLength`}
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <Input
-                      {...field}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') e.currentTarget.blur();
-                      }}
-                      onChange={(e) =>
-                        form.setValue(
-                          `dataSchema[${elementName}].minLength`,
-                          parseInt(e.target.value)
-                        )
-                      }
-                      value={parseInt(field.value)}
-                      placeholder="Min"
-                      className="w-3/4"
-                      type="number"
-                    />
-                    {fieldState.error?.message && (
-                      <Label variant={'error'}>
-                        {fieldState.error?.message}
-                      </Label>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-            <div className="flex items-center justify-between mb-4">
-              <Label className="mb-2">Max Length</Label>
-              <Controller
-                name={`dataSchema[${elementName}].maxLength`}
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <>
-                    <Input
-                      {...field}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') e.currentTarget.blur();
-                      }}
-                      onChange={(e) =>
-                        form.setValue(
-                          `dataSchema[${elementName}].maxLength`,
-                          parseInt(e.target.value)
-                        )
-                      }
-                      value={parseInt(field.value)}
-                      placeholder="Max Length"
-                      className="w-3/4"
-                      type="number"
-                    />
-                    {fieldState.error?.message && (
-                      <Label variant={'error'}>
-                        {fieldState.error?.message}
-                      </Label>
-                    )}
-                  </>
-                )}
-              />
-            </div>
+            {getMinMaxFields(elementInstance.subtype)}
             <div className="flex items-center justify-between mb-4">
               <Label className="mb-2">Regex</Label>
               <Controller
